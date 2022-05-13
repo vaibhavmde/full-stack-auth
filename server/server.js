@@ -12,14 +12,8 @@ const PORT = process.env.PORT || 5000;
 //connect to mongodb
 connectDB();
 
-const corsOptions ={
-  origin:'*', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}
 
-app.use(cors(corsOptions));
-// app.use(cors());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 //to parse json
 app.use(express.json());
