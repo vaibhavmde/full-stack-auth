@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { publicRequest } from "../requestMethods";
 
-
 const Reset = () => {
   const [otp, setOtp] = useState('');
   const [newPassword,setPassword] = useState('') 
   
   const navigate = useNavigate();
+
   
   const handleClick = async(e) => {
     e.preventDefault();
@@ -18,15 +18,14 @@ const Reset = () => {
      {
        headers: { "Content-Type": "application/json" }
      });    
-     await console.log(res);
      if(res.data==='Password Reset successfully'){
        alert('Password reset successfully');
        navigate('/login');
       }else{
-        alert(res.data);
+        alert(res.data); 
       }
     } catch (error) {
-      alert(error.message);
+        alert(error.message);
     }
   }
   
@@ -44,6 +43,7 @@ const Reset = () => {
 };
 
 export default Reset;
+
 
 const Container = styled.div`
 width: 100vw;

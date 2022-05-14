@@ -1,13 +1,14 @@
-import React from 'react'
 import { logout } from "../redux/userRedux";
 import { useDispatch} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate= useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -16,13 +17,14 @@ const Home = () => {
 
   return (
     <div>
-      <Head>Home</Head>
+      <Head>{`Welcome ${user.username}`}</Head>
       <Button onClick={handleLogout}>LOGOUT</Button>
     </div>
   )
 }
 
 export default Home
+
 
 const Button = styled.div`
   width: 100vw;

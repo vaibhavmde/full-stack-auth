@@ -19,10 +19,10 @@ const Forgot = () => {
      setEmail('');
      await console.log(res);
      if(res.data==='Mail sent successfully'){
-       await alert('Mail sent successfully');
+       alert('Mail sent successfully');
        navigate('/reset');
      }else{
-       alert(res.data)
+       alert(res.data);
      }
     } catch (error) {
       alert(error.message);

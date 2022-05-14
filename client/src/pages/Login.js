@@ -1,9 +1,72 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 import {Link} from 'react-router-dom'
 import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/userRedux";
+import { publicRequest } from "../requestMethods";
+
+
+const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleClick = async(e) => {
+    e.preventDefault();
+    try {
+      const res = await publicRequest.post("/login", {username,password});
+      console.log(res.data);
+      if(res.data==='Incorrect Password')
+      {
+        alert(res.data)
+      }if(res.data.username){
+        dispatch(loginSuccess(res.data));
+        alert('Login successfully')
+      }
+        
+    } catch (err) {
+      if(err.message==='Request failed with status code 401'){
+         alert('Invalid user')
+      } 
+    }  
+  };
+
+ 
+  return (
+    <Container>
+      <Wrapper>
+        <Title>SIGN IN</Title>
+        <Form onSubmit={handleClick}>
+          <Input
+            placeholder="username"
+            autoComplete="off"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <Input
+            placeholder="password"
+            type="password"
+            value={password}
+            autoComplete="off"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Button type='submit'>
+            LOGIN
+          </Button>
+          <REF><Link to='/forgot'>FORGOT PASSWORD?</Link></REF>
+          <REF><Link to='/register'>CREATE A NEW ACCOUNT</Link></REF>
+        </Form>
+      </Wrapper>
+    </Container>
+  );
+};
+
+export default Login;
+
 
 
 const Container = styled.div`
@@ -65,48 +128,3 @@ const REF = styled.a`
   text-decoration: underline;
   cursor: pointer;
 `;
-
-
-
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    login(dispatch, { username, password }); 
-     
-  };
-  return (
-    <Container>
-      <Wrapper>
-        <Title>SIGN IN</Title>
-        <Form onSubmit={handleClick}>
-          <Input
-            placeholder="username"
-            autoComplete="off"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <Input
-            placeholder="password"
-            type="password"
-            value={password}
-            autoComplete="off"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Button type='submit'>
-            LOGIN
-          </Button>
-          <REF><Link to='/forgot'>FORGOT PASSWORD?</Link></REF>
-          <REF><Link to='/register'>CREATE A NEW ACCOUNT</Link></REF>
-        </Form>
-      </Wrapper>
-    </Container>
-  );
-};
-
-export default Login;
